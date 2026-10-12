@@ -1,0 +1,8 @@
+
+State Machine - |MorseCode|current_state
+Name current_state.finalizado current_state.silencio current_state.emision current_state.alineacion current_state.reposo 
+current_state.reposo 0 0 0 0 0 
+current_state.alineacion 0 0 0 1 1 
+current_state.emision 0 0 1 0 1 
+current_state.silencio 0 1 0 0 1 
+current_state.finalizado 1 0 0 0 1 

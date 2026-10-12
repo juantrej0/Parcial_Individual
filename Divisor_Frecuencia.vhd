@@ -1,0 +1,71 @@
+library IEEE;
+use IEEE.std_logic_1164.ALL;
+use IEEE.numeric_std.ALL;
+
+entity Divisor_Frecuencia is
+    port (
+        Clk     : in  std_logic;
+        out_05  : out std_logic;  -- 0.5 Hz
+        out_1   : out std_logic;  -- 1 Hz
+        out_2   : out std_logic;  -- 2 Hz
+        out_3   : out std_logic;  -- 3 Hz
+        out_sys : out std_logic   -- 10 Hz (reloj interno de muestreo, siempre activo)
+    );
+end Divisor_Frecuencia;
+
+architecture arch_Divisor_Frecuencia of Divisor_Frecuencia is
+
+    signal cont_05, cont_1, cont_2, cont_3, cont_sys : unsigned(25 downto 0) := (others => '0');
+    signal s_05, s_1, s_2, s_3, s_sys : std_logic := '0';
+
+begin
+
+    process (Clk)
+    begin
+        if rising_edge(Clk) then
+
+            if cont_05 = 49999999 then
+                cont_05 <= (others => '0');
+                s_05    <= not s_05;
+            else
+                cont_05 <= cont_05 + 1;
+            end if;
+
+            if cont_1 = 24999999 then
+                cont_1 <= (others => '0');
+                s_1    <= not s_1;
+            else
+                cont_1 <= cont_1 + 1;
+            end if;
+
+            if cont_2 = 4 then
+                cont_2 <= (others => '0');
+                s_2    <= not s_2;
+            else
+                cont_2 <= cont_2 + 1;
+            end if;
+
+            if cont_3 = 8333332 then
+                cont_3 <= (others => '0');
+                s_3    <= not s_3;
+            else
+                cont_3 <= cont_3 + 1;
+            end if;
+
+            if cont_sys = 2499999 then
+                cont_sys <= (others => '0');
+                s_sys    <= not s_sys;
+            else
+                cont_sys <= cont_sys + 1;
+            end if;
+
+        end if;
+    end process;
+
+    out_05  <= s_05;
+    out_1   <= s_1;
+    out_2   <= s_2;
+    out_3   <= s_3;
+    out_sys <= s_sys;
+
+end arch_Divisor_Frecuencia;

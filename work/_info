@@ -1,0 +1,114 @@
+m255
+K3
+13
+cModel Technology
+dC:\altera\13.1
+Edivisor_frecuencia
+Z0 w1791739234
+Z1 DPx4 ieee 11 numeric_std 0 22 O3PF8EB`?j9=z7KT`fn941
+Z2 DPx3 std 6 textio 0 22 5>J:;AW>W0[[dW0I6EN1Q0
+Z3 DPx4 ieee 14 std_logic_1164 0 22 5=aWaoGZSMWIcH0i^f`XF1
+Z4 dC:\altera\13.1\MorseCode
+Z5 8C:/altera/13.1/Divisor_Frecuencia/Divisor_Frecuencia.vhd
+Z6 FC:/altera/13.1/Divisor_Frecuencia/Divisor_Frecuencia.vhd
+l0
+L5
+Vz3JWZVDED]3R=khJ9_O<I2
+!s100 2SXLIH:af;EY_<IADanB40
+Z7 OV;C;10.1d;51
+32
+!i10b 1
+Z8 !s108 1791835486.867000
+Z9 !s90 -reportprogress|300|-work|work|-2002|-explicit|C:/altera/13.1/Divisor_Frecuencia/Divisor_Frecuencia.vhd|
+Z10 !s107 C:/altera/13.1/Divisor_Frecuencia/Divisor_Frecuencia.vhd|
+Z11 o-work work -2002 -explicit -O0
+Z12 tExplicit 1
+Aarch_divisor_frecuencia
+R1
+R2
+R3
+Z13 DEx4 work 18 divisor_frecuencia 0 22 z3JWZVDED]3R=khJ9_O<I2
+l21
+L16
+Z14 VMEk[;ZOz8m=fB9=Z5HYEi2
+Z15 !s100 4WU:;aPl6NKiNHA]?V^YN1
+R7
+32
+!i10b 1
+R8
+R9
+R10
+R11
+R12
+Emorsecode
+Z16 w1791835394
+R1
+R2
+R3
+R4
+Z17 8C:/altera/13.1/MorseCode/MorseCode.vhd
+Z18 FC:/altera/13.1/MorseCode/MorseCode.vhd
+l0
+L5
+Vo5=F@HgQdC4U3`5[cL?872
+R7
+32
+Z19 !s108 1791835485.647000
+Z20 !s90 -reportprogress|300|-work|work|-2002|-explicit|C:/altera/13.1/MorseCode/MorseCode.vhd|
+Z21 !s107 C:/altera/13.1/MorseCode/MorseCode.vhd|
+R11
+R12
+!s100 l0a2fz=[CHfPgToI?LPTi1
+!i10b 1
+Aarch_morsecode
+R1
+R2
+R3
+DEx4 work 9 morsecode 0 22 o5=F@HgQdC4U3`5[cL?872
+l49
+L15
+VS6Aj8HTkPCA@3NJPg7F?[0
+R7
+32
+R19
+R20
+R21
+R11
+R12
+!s100 Na8g7YV4Th7n:S2@C8e;C0
+!i10b 1
+Etestbench
+Z22 w1791835486
+R2
+R3
+R4
+Z23 8C:/altera/13.1/MorseCode/testbench.vhd
+Z24 FC:/altera/13.1/MorseCode/testbench.vhd
+l0
+L4
+VgzbG^]hRaM9^S4;hWIS@L0
+R7
+32
+Z25 !s108 1791835486.811000
+Z26 !s90 -reportprogress|300|-work|work|-2002|-explicit|C:/altera/13.1/MorseCode/testbench.vhd|
+Z27 !s107 C:/altera/13.1/MorseCode/testbench.vhd|
+R11
+R12
+!s100 ffgiE7eb5]aWU2=Fg1<a83
+!i10b 1
+Aarch_testbench
+R2
+R3
+DEx4 work 9 testbench 0 22 gzbG^]hRaM9^S4;hWIS@L0
+l23
+L7
+VELkgg43[g6bbYme`h2=^R2
+R7
+32
+R25
+R26
+R27
+R11
+R12
+!s100 mmc=ho5H;JONCPThoOhdj0
+!i10b 1

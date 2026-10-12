@@ -1,0 +1,197 @@
+library IEEE;
+use IEEE.std_logic_1164.all; 
+use IEEE.numeric_std.all;
+
+entity MorseCode is
+    port (
+        --- Inputs
+        Reset, start_n, Clock : in  std_logic;
+        sw                    : in  std_logic_vector(2 downto 0);
+        --- Outputs
+        led                   : out std_logic
+    );
+end MorseCode;
+
+architecture arch_MorseCode of MorseCode is
+
+    --- Componente divisor de frecuencia
+    component Divisor_Frecuencia
+        port (
+            Clk     : in  std_logic;
+            out_05  : out std_logic;
+            out_1   : out std_logic;
+            out_2   : out std_logic;
+            out_3   : out std_logic;
+            out_sys : out std_logic
+        );
+    end component;
+
+    --- Estados del proceso Morse
+    type estados is (reposo, alineacion, emision, silencio, finalizado);
+
+    signal current_state, next_state : estados;
+
+    --- Señales del divisor
+    signal out_05, out_1, out_2, out_3, out_sys : std_logic;
+    signal prev_out_2 : std_logic := '0';
+    signal tick       : std_logic := '0';
+
+    --- Seleccion de letra
+    signal pattern : std_logic_vector(3 downto 0);
+    signal length  : integer range 1 to 4;
+
+    --- Registros
+    signal pattern_reg : std_logic_vector(3 downto 0) := (others => '0');
+    signal length_reg  : integer range 0 to 4 := 0;
+    signal on_counter  : integer range 0 to 3 := 0;
+    signal gap_counter : integer range 0 to 1 := 0;
+
+begin
+
+    --- Instancia del divisor
+    div_inst : Divisor_Frecuencia
+        port map (
+            Clk     => Clock,
+            out_05  => out_05,
+            out_1   => out_1,
+            out_2   => out_2,
+            out_3   => out_3,
+            out_sys => out_sys
+        );
+
+    --- Deteccion de flanco de subida de out_2 (tick cada 0.5 s)
+    process(Clock, Reset)
+    begin
+        if Reset = '0' then
+            prev_out_2 <= '0';
+        elsif Clock = '1' AND Clock'event then
+            prev_out_2 <= out_2;
+        end if;
+    end process;
+
+    tick <= '1' when (out_2 = '1' and prev_out_2 = '0') else '0';
+
+    --- Seleccion de letra
+    process(sw)
+    begin
+        case sw is
+            when "000" => pattern <= "0100"; length <= 2; -- A  .-
+            when "001" => pattern <= "1000"; length <= 4; -- B  -...
+            when "010" => pattern <= "1010"; length <= 4; -- C  -.-.
+            when "011" => pattern <= "1000"; length <= 3; -- D  -..
+            when "100" => pattern <= "0000"; length <= 1; -- E  .
+            when "101" => pattern <= "0010"; length <= 4; -- F  ..-.
+            when "110" => pattern <= "1100"; length <= 3; -- G  --.
+            when "111" => pattern <= "0000"; length <= 4; -- H  ....
+            when others => pattern <= "0000"; length <= 1;
+        end case;
+    end process;
+
+    --- Memoria de estado y ruta de datos
+    process(Clock, Reset)
+    begin
+        if Reset = '0' then
+            current_state <= reposo;
+            pattern_reg   <= (others => '0');
+            length_reg    <= 0;
+            on_counter    <= 0;
+            gap_counter   <= 0;
+        elsif Clock = '1' AND Clock'event then
+
+            current_state <= next_state;
+
+            if current_state = reposo and start_n = '0' then
+                pattern_reg <= pattern;
+                length_reg  <= length;
+            end if;
+
+            if next_state = emision and current_state = alineacion then
+                if pattern_reg(3) = '0' then
+                    on_counter <= 1;
+                else
+                    on_counter <= 3;
+                end if;
+            elsif next_state = emision and current_state = silencio then
+                if pattern_reg(2) = '0' then
+                    on_counter <= 1;
+                else
+                    on_counter <= 3;
+                end if;
+            end if;
+
+            if next_state = silencio then
+                gap_counter <= 1;
+            end if;
+
+            if current_state = emision and tick = '1' then
+                if on_counter > 0 then
+                    on_counter <= on_counter - 1;
+                end if;
+            end if;
+
+            if current_state = silencio and tick = '1' then
+                if gap_counter > 0 then
+                    gap_counter <= gap_counter - 1;
+                end if;
+            end if;
+
+            if current_state = silencio and next_state = emision then
+                pattern_reg <= pattern_reg(2 downto 0) & '0';
+                length_reg  <= length_reg - 1;
+            end if;
+
+        end if;
+    end process;
+
+    --- Logica de estado siguiente
+    logstd : PROCESS (current_state, start_n, tick, on_counter, gap_counter, length_reg)
+    BEGIN
+        case(current_state) is
+            when reposo =>
+                IF start_n = '0' THEN
+                    next_state <= alineacion;
+                ELSE
+                    next_state <= reposo;
+                END IF;
+
+            when alineacion =>
+                IF tick = '1' THEN
+                    next_state <= emision;
+                ELSE
+                    next_state <= alineacion;
+                END IF;
+
+            when emision =>
+                IF tick = '1' and on_counter = 1 THEN
+                    next_state <= silencio;
+                ELSE
+                    next_state <= emision;
+                END IF;
+
+            when silencio =>
+                IF tick = '1' and gap_counter = 1 THEN
+                    IF length_reg > 1 THEN
+                        next_state <= emision;
+                    ELSE
+                        next_state <= finalizado;
+                    END IF;
+                ELSE
+                    next_state <= silencio;
+                END IF;
+
+            when finalizado =>
+                IF start_n = '1' THEN
+                    next_state <= reposo;
+                ELSE
+                    next_state <= finalizado;
+                END IF;
+
+            when others =>
+                next_state <= reposo;
+        END CASE;
+    END PROCESS;
+
+    --- Logica de salida (Moore)
+    led <= '1' when current_state = emision else '0';
+
+end arch_MorseCode;

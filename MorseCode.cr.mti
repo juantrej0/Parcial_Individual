@@ -1,0 +1,18 @@
+C:/altera/13.1/Divisor_Frecuencia/Divisor_Frecuencia.vhd {1 {vcom -work work -2002 -explicit C:/altera/13.1/Divisor_Frecuencia/Divisor_Frecuencia.vhd
+Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity Divisor_Frecuencia
+-- Compiling architecture arch_Divisor_Frecuencia of Divisor_Frecuencia
+
+} {} {}} C:/altera/13.1/MorseCode/testbench.vhd {1 {vcom -work work -2002 -explicit C:/altera/13.1/MorseCode/testbench.vhd
+Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity testbench
+-- Compiling architecture arch_testbench of testbench
+
+} {} {}}

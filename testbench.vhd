@@ -1,0 +1,123 @@
+library IEEE;
+use IEEE.std_logic_1164.ALL;
+
+entity testbench is
+end testbench;
+
+architecture arch_testbench of testbench is
+
+    component MorseCode
+        port (
+            Reset, start_n, Clock : in  std_logic;
+            sw                    : in  std_logic_vector(2 downto 0);
+            led                   : out std_logic
+        );
+    end component;
+
+    signal Clock_tb   : std_logic := '0';
+    signal Reset_tb   : std_logic := '1';
+    signal start_n_tb : std_logic := '1';
+    signal sw_tb      : std_logic_vector(2 downto 0) := "000";
+    signal led_tb     : std_logic;
+
+begin
+
+    DUT: MorseCode
+        port map (
+            Clock   => Clock_tb,
+            Reset   => Reset_tb,
+            start_n => start_n_tb,
+            sw      => sw_tb,
+            led     => led_tb
+        );
+
+    -- Reloj (periodo 10 ns -> 5 ns en alto, 5 ns en bajo)
+    clk_process : process
+    begin
+        Clock_tb <= '0';
+        wait for 5 ns;
+        Clock_tb <= '1';
+        wait for 5 ns;
+    end process;
+
+    -- Estimulos
+    -- NOTA: con cont_2 = 4 en el divisor (solo para simular) 1 unidad = 100 ns.
+    --       punto = 100 ns, raya = 300 ns, pausa = 100 ns.
+    --       La letra mas larga (C) dura 12 unidades = 1200 ns,
+    --       por eso cada letra espera 1500 ns antes de la siguiente.
+    --       para comprobar en FPGA se usa el divisor de frecuencia nuevamente en 12499999 
+    estim_process: process
+    begin
+        -- Reset inicial
+        Reset_tb <= '0';
+        wait for 20 ns;
+        Reset_tb <= '1';
+        wait for 20 ns;
+
+        -- Letra A (000) :
+        sw_tb <= "000";
+        wait for 20 ns;
+        start_n_tb <= '0';
+        wait for 20 ns;
+        start_n_tb <= '1';
+        wait for 1500 ns;
+
+        -- Letra B (001) : 
+        sw_tb <= "001";
+        wait for 20 ns;
+        start_n_tb <= '0';
+        wait for 20 ns;
+        start_n_tb <= '1';
+        wait for 1500 ns;
+
+        -- Letra C (010) : 
+        sw_tb <= "010";
+        wait for 20 ns;
+        start_n_tb <= '0';
+        wait for 20 ns;
+        start_n_tb <= '1';
+        wait for 1500 ns;
+
+        -- Letra D (011) : 
+        sw_tb <= "011";
+        wait for 20 ns;
+        start_n_tb <= '0';
+        wait for 20 ns;
+        start_n_tb <= '1';
+        wait for 1500 ns;
+
+        -- Letra E (100) 
+        sw_tb <= "100";
+        wait for 20 ns;
+        start_n_tb <= '0';
+        wait for 20 ns;
+        start_n_tb <= '1';
+        wait for 1500 ns;
+
+        -- Letra F (101) :
+        sw_tb <= "101";
+        wait for 20 ns;
+        start_n_tb <= '0';
+        wait for 20 ns;
+        start_n_tb <= '1';
+        wait for 1500 ns;
+
+        -- Letra G (110) :
+        sw_tb <= "110";
+        wait for 20 ns;
+        start_n_tb <= '0';
+        wait for 20 ns;
+        start_n_tb <= '1';
+        wait for 1500 ns;
+
+        -- Letra H (111) :
+        sw_tb <= "111";
+        wait for 20 ns;
+        start_n_tb <= '0';
+        wait for 20 ns;
+        start_n_tb <= '1';
+        wait for 1500 ns;
+        wait;
+    end process;
+
+end architecture;
