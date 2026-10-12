@@ -1,0 +1,1 @@
+Dentro de la carpeta morsecode se encuentra el archivo VHD de la FSM, así como el del testbench. Adicionalmente esta la carpeta del divisor de frecuencia que se usa como un componente instanciado para el objetivo del laboratorio y que para efectos de la fpga se puede modificar.
