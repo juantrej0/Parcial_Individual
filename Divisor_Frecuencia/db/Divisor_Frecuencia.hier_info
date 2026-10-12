@@ -1,0 +1,13 @@
+|Divisor_Frecuencia
+Clk => out2~reg0.CLK
+Clk => out1~reg0.CLK
+Clk => count1[0].CLK
+Clk => count1[1].CLK
+Clk => count1[2].CLK
+Clk => count2[0].CLK
+Clk => count2[1].CLK
+Clk => count2[2].CLK
+out1 << out1~reg0.DB_MAX_OUTPUT_PORT_TYPE
+out2 << out2~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+
